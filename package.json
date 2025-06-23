@@ -1,7 +1,6 @@
 {
   "name": "react-notes-app",
   "version": "0.1.0",
-  "homepage": "https://Vvkvimal03.github.io/Notes-app",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -18,12 +17,12 @@
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.58.1",
     "react-router-dom": "^7.6.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4",
     "yup": "^1.6.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --no-warnings",
     "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
