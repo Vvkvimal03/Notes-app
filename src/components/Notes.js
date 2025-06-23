@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { 
   Container, 
   Typography, 
@@ -9,8 +8,6 @@ import {
   DialogContent,
   DialogActions,
   Chip,
-  AppBar,
-  Toolbar,
   IconButton,
   Box
 } from "@mui/material";
@@ -19,11 +16,10 @@ import {
   Add as AddIcon, 
   Edit as EditIcon, 
   Delete as DeleteIcon,
-  Logout as LogoutIcon,
   StickyNote2 as NotesIcon
 } from "@mui/icons-material";
 import NoteForm from "./NoteForm";
-import { useAuth } from "../context/AuthContext";
+import Header from "./Header";
 
 const Notes = () => {
   const [notes, setNotes] = useState([]);
@@ -31,8 +27,6 @@ const Notes = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   // Prefilled demo data
   const demoNotes = [
@@ -98,11 +92,6 @@ const Notes = () => {
     }
     setEditingNote(null);
     setIsFormOpen(false);
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
   };
 
   const formatDate = (dateString) => {
@@ -180,14 +169,13 @@ const Notes = () => {
       ),
     },
   ];
- const datagridSx = {
+
+  const datagridSx = {
     borderRadius: 2,
     '& .MuiDataGrid-main': {
       borderRadius: 2,
       border: '3px solid rgb(56 202 179)',
     },
-    
-    
     '& .MuiDataGrid-columnHeaders': {
       color: 'white',
       fontSize: 16,
@@ -204,33 +192,12 @@ const Notes = () => {
       color: 'white',
       borderRadius: 2,
     },
-   
   };
 
- 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <AppBar position="static" className="bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg">
-        <Toolbar>
-          <NotesIcon className="mr-3" />
-          <Typography variant="h6" className="flex-grow font-semibold">
-            My Notes
-          </Typography>
-          <div className="flex items-center space-x-4">
-            <Typography variant="body2" className="hidden sm:block">
-              Welcome, {user?.name || user?.email}
-            </Typography>
-            <IconButton
-              color="inherit"
-              onClick={handleLogout}
-              className="hover:bg-white/20 transition-colors"
-            >
-              <LogoutIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
+      {/* Header Component */}
+      <Header title="My Notes" />
 
       <Container maxWidth="lg" className="py-8">
         {/* Header Section */}
@@ -260,7 +227,7 @@ const Notes = () => {
         <Box className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden h-96">
           <DataGrid
             rows={notes}
-             sx={datagridSx}
+            sx={datagridSx}
             columns={columns}
             loading={loading}
             initialState={{
@@ -272,8 +239,6 @@ const Notes = () => {
             }}
             pageSizeOptions={[5, 10, 25]}
             disableRowSelectionOnClick
-          
-           
             slots={{
               noRowsOverlay: () => (
                 <Box className="flex flex-col items-center justify-center h-64">
