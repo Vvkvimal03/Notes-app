@@ -1,52 +1,52 @@
-#  React Notes Application
+# 📝 Notes Application
 
-A simple, modern notes application built with **React**, **Tailwind CSS**, and **Context API**, featuring user login and complete CRUD (Create, Read, Update, Delete) functionality. It's fully responsive, uses localStorage for persistence, and includes clean UI interactions.
+A simple and modern notes app built with **React 19**, **Tailwind CSS**, and **Context API**, featuring secure user login and full CRUD (Create, Read, Update, Delete) operations. Notes are stored in `localStorage` and displayed in a sleek, responsive interface using **MUI DataGrid**.
 
 ---
 
-## Features
+## ✨ Features
 
-###  Authentication
-- Login with email and password
-- Form validation using `react-hook-form` and `yup`
-- Token storage in `localStorage`
-- Protected routes via React Router
-- Logout functionality
+### 🔐 Authentication
+- Login using email and password
+- Validations powered by `react-hook-form` and `yup`
+- Token storage in `localStorage` for persistent sessions
+- Protected routes using `react-router-dom`
+- Logout support with session clear
 
 ### 🗂️ Notes Management
-- View all notes in a responsive table
-- Add new notes using a form modal
-- Edit existing notes with pre-filled form
+- View notes in a table (powered by MUI DataGrid)
+- Create new notes using a modal form
+- Edit notes with pre-filled data
 - Delete notes with confirmation dialog
-- Data is saved in `localStorage` for persistence
-- Prefilled sample data on first load
+- Data is stored and retrieved from `localStorage`
+- Sample notes auto-loaded on first visit
 
-### UI/UX
-- Fully responsive layout with **Tailwind CSS**
-- Optional use of **MUI DataGrid** for displaying notes
-- Smooth interactions and a modern, clean design
-- Loading indicators and error handling
+### 🎨 UI/UX
+- Fully responsive layout styled with **Tailwind CSS**
+- Smooth interactions and clean, intuitive design
+- Loading indicators and form validations
 - Confirmation modals for delete actions
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **React 18 + TypeScript**
-- **Tailwind CSS** – Primary styling framework
-- **react-hook-form + yup** – Form validation
-- **Context API** – Auth state management
-- **localStorage** – Data persistence
-- **React Router** – Navigation and route protection
-- **MUI** (selectively used) – For table (DataGrid) or inputs if needed
-
----
-
-##  Demo Credentials
-
-Email:`user@example.com` 
-Password:`password123`
+| Tech             | Usage                         |
+|------------------|-------------------------------|
+| React 19         | UI & Component logic          |
+| Tailwind CSS     | Primary styling framework     |
+| MUI DataGrid     | Tabular notes display         |
+| react-hook-form  | Form handling                 |
+| yup              | Schema-based validation       |
+| Context API      | Global auth state             |
+| react-router-dom | Routing and route protection  |
+| localStorage     | Persistent notes & auth data  |
 
 ---
 
+## Demo Credentials
 
+Use the following credentials to log in:
+
+Email: user@example.com
+Password: password123
