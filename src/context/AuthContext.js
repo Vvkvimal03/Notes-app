@@ -1,4 +1,3 @@
-// context/AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -29,10 +28,14 @@ export const AuthProvider = ({ children }) => {
     // Simulate API call
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (email === 'user@example.com' && password === 'password123') {
+        // Trim the inputs before validation
+        const trimmedEmail = email?.trim();
+        const trimmedPassword = password?.trim();
+        
+        if (trimmedEmail === 'user@example.com' && trimmedPassword === 'password123') {
           const userData = {
             id: 1,
-            email: email,
+            email: trimmedEmail,
             name: 'User'
           };
           const token = 'mock-jwt-token-' + Date.now();

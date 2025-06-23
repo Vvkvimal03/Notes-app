@@ -25,11 +25,13 @@ const validationSchema = yup.object({
   email: yup
     .string()
     .email("Please enter a valid email address")
-    .required("Email is required"),
+    .required("Email is required")
+    .transform((value) => value?.trim()),
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("Password is required")
+    .transform((value) => value?.trim()),
 });
 
 const Login = () => {
@@ -55,8 +57,15 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      setError("");
-      await login(data.email, data.password);
+      setError(""); // Clear error at the start
+      
+      // Trim the input values
+      const trimmedData = {
+        email: data.email?.trim(),
+        password: data.password?.trim()
+      };
+      
+      await login(trimmedData.email, trimmedData.password);
       navigate("/notes");
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
@@ -67,6 +76,14 @@ const Login = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  // Clear error when user starts typing
+  const handleInputChange = (field, value) => {
+    if (error) {
+      setError("");
+    }
+    field.onChange(value);
   };
 
   return (
@@ -101,6 +118,7 @@ const Login = () => {
                 render={({ field }) => (
                   <TextField
                     {...field}
+                    onChange={(e) => handleInputChange(field, e.target.value)}
                     fullWidth
                     label="Email Address"
                     type="email"
@@ -132,6 +150,7 @@ const Login = () => {
                 render={({ field }) => (
                   <TextField
                     {...field}
+                    onChange={(e) => handleInputChange(field, e.target.value)}
                     fullWidth
                     label="Password"
                     type={showPassword ? "text" : "password"}

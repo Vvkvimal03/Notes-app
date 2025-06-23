@@ -4,13 +4,6 @@ import {
   Container, 
   Typography, 
   Button, 
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -18,8 +11,10 @@ import {
   Chip,
   AppBar,
   Toolbar,
-  IconButton
+  IconButton,
+  Box
 } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
 import { 
   Add as AddIcon, 
   Edit as EditIcon, 
@@ -35,6 +30,7 @@ const Notes = () => {
   const [editingNote, setEditingNote] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -72,6 +68,7 @@ const Notes = () => {
       setNotes(demoNotes);
       localStorage.setItem("notes", JSON.stringify(demoNotes));
     }
+    setLoading(false);
   }, []);
 
   const saveNotes = (updated) => {
@@ -116,6 +113,101 @@ const Notes = () => {
     });
   };
 
+  // DataGrid columns configuration
+  const columns = [
+    {
+      field: 'title',
+      headerName: 'Title',
+      flex: 1,
+      minWidth: 150,
+      renderCell: (params) => (
+        <Typography variant="body2" className="font-medium text-gray-800">
+          {params.value}
+        </Typography>
+      ),
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      flex: 2,
+      minWidth: 200,
+      renderCell: (params) => (
+        <Typography 
+          variant="body2" 
+          className="text-gray-600 truncate"
+          title={params.value}
+        >
+          {params.value}
+        </Typography>
+      ),
+    },
+    {
+      field: 'date',
+      headerName: 'Date',
+      width: 120,
+      renderCell: (params) => (
+        <Chip 
+          label={formatDate(params.value)} 
+          variant="outlined" 
+          size="small"
+          className="text-teal-700 border-teal-200"
+        />
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 120,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <Box className="flex justify-center space-x-1">
+          <IconButton
+            onClick={() => handleEdit(params.row)}
+            className="text-teal-600 hover:text-teal-800 hover:bg-teal-50 transition-colors"
+            size="small"
+          >
+            <EditIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            onClick={() => setDeleteConfirm(params.row)}
+            className="text-red-600 hover:text-red-800 hover:bg-red-50 transition-colors"
+            size="small"
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Box>
+      ),
+    },
+  ];
+ const datagridSx = {
+    borderRadius: 2,
+    '& .MuiDataGrid-main': {
+      borderRadius: 2,
+      border: '3px solid rgb(56 202 179)',
+    },
+    
+    
+    '& .MuiDataGrid-columnHeaders': {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    '& .super-app-theme--header': {
+      backgroundColor: 'rgba(255, 7, 0, 0.55)',
+    },
+    '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-columnHeader': {
+      backgroundColor: 'rgb(56 202 179)',
+    },
+    '& .MuiTablePagination-root': {
+      backgroundColor: 'rgb(56 202 179)',
+      color: 'white',
+      borderRadius: 2,
+    },
+   
+  };
+
+ 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -164,77 +256,39 @@ const Notes = () => {
           </Button>
         </div>
 
-        {/* Notes Table */}
-        <Paper className="shadow-xl rounded-xl overflow-hidden border border-gray-200">
-          <TableContainer>
-            <Table>
-              <TableHead className="bg-gradient-to-r from-teal-50 to-cyan-50">
-                <TableRow>
-                  <TableCell className="font-semibold text-gray-700">Title</TableCell>
-                  <TableCell className="font-semibold text-gray-700">Description</TableCell>
-                  <TableCell className="font-semibold text-gray-700">Date</TableCell>
-                  <TableCell className="font-semibold text-gray-700" align="center">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {notes.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={4} align="center" className="py-12">
-                      <div className="text-center">
-                        <NotesIcon className="text-gray-300 text-6xl mb-4" />
-                        <Typography variant="h6" className="text-gray-500 mb-2">
-                          No notes yet
-                        </Typography>
-                        <Typography variant="body2" className="text-gray-400">
-                          Create your first note to get started
-                        </Typography>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  notes.map((note) => (
-                    <TableRow key={note.id} className="hover:bg-gray-50 transition-colors">
-                      <TableCell className="font-medium text-gray-800">
-                        {note.title}
-                      </TableCell>
-                      <TableCell className="text-gray-600 max-w-md">
-                        <div className="truncate">
-                          {note.description}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Chip 
-                          label={formatDate(note.date)} 
-                          variant="outlined" 
-                          size="small"
-                          className="text-teal-700 border-teal-200"
-                        />
-                      </TableCell>
-                      <TableCell align="center">
-                        <div className="flex justify-center space-x-2">
-                          <IconButton
-                            onClick={() => handleEdit(note)}
-                            className="text-teal-600 hover:text-teal-800 hover:bg-teal-50 transition-colors"
-                            size="small"
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            onClick={() => setDeleteConfirm(note)}
-                            className="text-red-600 hover:text-red-800 hover:bg-red-50 transition-colors"
-                            size="small"
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+        {/* DataGrid */}
+        <Box className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden h-96">
+          <DataGrid
+            rows={notes}
+             sx={datagridSx}
+            columns={columns}
+            loading={loading}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
+              },
+            }}
+            pageSizeOptions={[5, 10, 25]}
+            disableRowSelectionOnClick
+          
+           
+            slots={{
+              noRowsOverlay: () => (
+                <Box className="flex flex-col items-center justify-center h-64">
+                  <NotesIcon className="text-gray-300 text-6xl mb-4" />
+                  <Typography variant="h6" className="text-gray-500 mb-2">
+                    No notes yet
+                  </Typography>
+                  <Typography variant="body2" className="text-gray-400">
+                    Create your first note to get started
+                  </Typography>
+                </Box>
+              ),
+            }}
+          />
+        </Box>
 
         {/* Note Form Dialog */}
         <Dialog 
