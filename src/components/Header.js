@@ -22,7 +22,7 @@ const Header = ({ title = "My Notes" }) => {
   };
 
   return (
-    <AppBar position="static" className="bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg">
+    <AppBar position="sticky" className="bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg">
       <Toolbar>
         <NotesIcon className="mr-3" />
         <Typography variant="h6" className="flex-grow font-semibold">

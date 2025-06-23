@@ -6,16 +6,9 @@ import {
   TextField, 
   Button, 
   Box,
-  InputAdornment
 } from "@mui/material";
-import { 
-  Title as TitleIcon,
-  Description as DescriptionIcon,
-  DateRange as DateIcon,
- 
 
-} from "@mui/material";
-import { Save } from "@mui/icons-material";
+import { Close, Save } from "@mui/icons-material";
 
 const validationSchema = yup.object({
   title: yup
@@ -84,14 +77,7 @@ const NoteForm = ({ onSubmit, initial, onCancel }) => {
             error={!!errors.title}
             helperText={errors.title?.message}
             className="bg-gray-50/50 rounded-lg"
-            // InputProps={{
-            //   startAdornment: (
-            //     <InputAdornment position="start">
-            //       <TitleIcon className="text-gray-400" />
-            //     </InputAdornment>
-            //   ),
-            //   className: "rounded-lg",
-            // }}
+            
             slotProps={{
               input: {
                 className: "focus:border-teal-500 hover:border-teal-400 border-gray-300"
@@ -114,14 +100,6 @@ const NoteForm = ({ onSubmit, initial, onCancel }) => {
             error={!!errors.description}
             helperText={errors.description?.message}
             className="bg-gray-50/50 rounded-lg"
-            // InputProps={{
-            //   startAdornment: (
-            //     <InputAdornment position="start" className="self-start mt-4">
-            //       <DescriptionIcon className="text-gray-400" />
-            //     </InputAdornment>
-            //   ),
-            //   className: "rounded-lg",
-            // }}
             slotProps={{
               input: {
                 className: "focus:border-teal-500 hover:border-teal-400 border-gray-300"
@@ -143,15 +121,7 @@ const NoteForm = ({ onSubmit, initial, onCancel }) => {
             error={!!errors.date}
             helperText={errors.date?.message}
             className="bg-gray-50/50 rounded-lg"
-            InputLabelProps={{ shrink: true }}
-            // InputProps={{
-            //   startAdornment: (
-            //     <InputAdornment position="start">
-            //       <DateIcon className="text-gray-400" />
-            //     </InputAdornment>
-            //   ),
-            //   className: "rounded-lg",
-            // }}
+           
             slotProps={{
               input: {
                 className: "focus:border-teal-500 hover:border-teal-400 border-gray-300"
@@ -165,9 +135,9 @@ const NoteForm = ({ onSubmit, initial, onCancel }) => {
         <Button
           type="button"
           onClick={onCancel}
-          className="text-gray-600 hover:text-gray-800 hover:bg-gray-100 normal-case px-6"
+          className=" bg-red-200 text-gray-800 hover:text-gray-800 hover:bg-gray-100 normal-case px-6"
         >
-          {/* <CancelIcon className="mr-2" /> */}
+          <Close className="mr-2" />
           Cancel
         </Button>
         <Button
